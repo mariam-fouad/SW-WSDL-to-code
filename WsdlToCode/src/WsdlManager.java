@@ -37,7 +37,15 @@ public class WsdlManager {
 	
 	public void Generate (ArrayList <Boolean> functionToGenrate)
 	{
+		ArrayList <String> code = new ArrayList <String>();
+		ArrayList <String> filenames = new ArrayList <String> ();
+		String filePath = new String ();
 		//function  Implementation
+		FileHelper file = new FileHelper ();
+		for (int i=0;i<code.size();i++)
+		{
+			file.WriteClassTextToFile ((filePath+filenames.get(i)+".java") , code.get(i));
+		}
 	}
 	public AppConfig getAppConfig() {
 		return appConfig;
