@@ -1,9 +1,9 @@
 
-public class Element {
+public class WSDLElement {
 	
 	
-	 private String Name;
-	 private String AccessSpecifier;
+	String Name;
+	 String AccessSpecifier;
 	
 
 	public String getName() {

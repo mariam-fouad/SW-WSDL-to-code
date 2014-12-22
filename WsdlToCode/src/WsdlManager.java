@@ -16,7 +16,7 @@ public class WsdlManager {
 		if (function == 1) //use URL to get a list of functionNames
 		{
 			WsdlParser parser = new WsdlParser();
-			ArrayList <Element> elmentList = parser.processWSDL(appConfig.getURL());
+			
 			///rest of function Implementation
 			
 		}

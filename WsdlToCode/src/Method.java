@@ -1,24 +1,21 @@
 
-public class Method extends Element{
-	private String Action;
-    private Paramater[] InputParameters;
-    private String OutputType;
+public class Method extends WSDLElement{
+	 String SoapAction;
+    //Paramater[] InputParameters;
+    type OutputType;
+    type InputType;
+    
 	public String getAction() {
-		return Action;
+		return SoapAction;
 	}
 	public void setAction(String action) {
-		Action = action;
+		SoapAction = action;
 	}
-	public Paramater[] getInputParameters() {
-		return InputParameters;
-	}
-	public void setInputParameters(Paramater[] inputParameters) {
-		InputParameters = inputParameters;
-	}
-	public String getOutputType() {
+	
+	public type getOutputType() {
 		return OutputType;
 	}
-	public void setOutputType(String outputType) {
+	public void setOutputType(type outputType) {
 		OutputType = outputType;
 	}
 

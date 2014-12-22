@@ -1,5 +1,5 @@
 
 public interface Language {
 
-	public String getSourse (Element elem);
+	public String getSourse (WSDLElement elem);
 }

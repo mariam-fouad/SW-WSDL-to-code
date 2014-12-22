@@ -3,7 +3,7 @@
  *
  * @author Jasmin
  */
-public class Paramater extends Element{
+public class Paramater extends WSDLElement{
     private String DataType;
 
 	public String getDataType() {
