@@ -35,7 +35,7 @@ public class WsdlManager {
 		return Result;
 	}
 	
-	public void Generate (ArrayList <Boolean> functionToGenrate)
+	public void Generate (ArrayList <Boolean> functionToGenerate)
 	{
 		ArrayList <String> code = new ArrayList <String>();
 		ArrayList <String> filenames = new ArrayList <String> ();
