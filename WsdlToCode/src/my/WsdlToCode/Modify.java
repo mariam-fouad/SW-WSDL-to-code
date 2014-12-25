@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import static my.WsdlToCode.WSDL2CodeApp.convertUrlToJavaPackageName;
 import org.xml.sax.SAXException;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -19,6 +20,7 @@ import org.xml.sax.SAXException;
  */
 public class Modify extends javax.swing.JFrame {
     public static String Url, File_Path, Package_Name;
+    public static ArrayList<JCheckBox> MethodsBox = new ArrayList();
     /**
      * Creates new form Modify
      */
@@ -47,17 +49,26 @@ public class Modify extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnModify = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        MethodsCheckBoxes = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(645, 430));
+        getContentPane().setLayout(null);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(18, 72, 306, 306);
+
         jLabel1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Modify");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(288, 18, 108, 36);
 
         btnModify.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnModify.setText("Modify");
@@ -66,6 +77,8 @@ public class Modify extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
+        getContentPane().add(btnModify);
+        btnModify.setBounds(355, 314, 126, 54);
 
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExit.setText("Exit");
@@ -74,43 +87,48 @@ public class Modify extends javax.swing.JFrame {
                 btnExitActionPerformed(evt);
             }
         });
+        getContentPane().add(btnExit);
+        btnExit.setBounds(488, 314, 126, 54);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(304, 304, 304))
+        MethodsCheckBoxes.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        MethodsCheckBoxes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        javax.swing.GroupLayout MethodsCheckBoxesLayout = new javax.swing.GroupLayout(MethodsCheckBoxes);
+        MethodsCheckBoxes.setLayout(MethodsCheckBoxesLayout);
+        MethodsCheckBoxesLayout.setHorizontalGroup(
+            MethodsCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 248, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+        MethodsCheckBoxesLayout.setVerticalGroup(
+            MethodsCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 229, Short.MAX_VALUE)
         );
+
+        getContentPane().add(MethodsCheckBoxes);
+        MethodsCheckBoxes.setBounds(355, 72, 252, 234);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/1d129676d0fa0fabfca9a8fd344268d21.jpg"))); // NOI18N
+        jLabel2.setMaximumSize(new java.awt.Dimension(730, 400));
+        jLabel2.setMinimumSize(new java.awt.Dimension(730, 400));
+        jLabel2.setPreferredSize(new java.awt.Dimension(730, 400));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 14, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 720, 414);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -124,6 +142,14 @@ public class Modify extends javax.swing.JFrame {
             App.PackageName = Package_Name;
             WsdlParser.processWSDL(App.URL);
             ArrayList<String> c = WsdlParser.GetAllNames();
+            for(int i = 0 ; i < c.size() ; i++)
+            {
+                MethodsBox.add(new javax.swing.JCheckBox());
+                MethodsBox.get(i).setText(c.get(i));
+                MethodsCheckBoxes.add(MethodsBox.get(i));
+            }
+            MethodsCheckBoxes.setVisible(true);
+            
             if (Package_Name.length() == 0)
             {
                 Package_Name = convertUrlToJavaPackageName(WsdlParser.Namespace);
@@ -206,11 +232,13 @@ public class Modify extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel MethodsCheckBoxes;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnModify;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
