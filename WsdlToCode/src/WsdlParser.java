@@ -72,7 +72,7 @@ public class WsdlParser {
     }
     
 
-    public ArrayList <Element> processWSDL (String URL) throws SAXException, IOException, ParserConfigurationException
+    public static ArrayList <Element> processWSDL (String URL) throws SAXException, IOException, ParserConfigurationException
     {
             Document doc = getWsdl (URL);
             WSDLAddress = URL;
@@ -82,7 +82,7 @@ public class WsdlParser {
             }
             return elementList;
     }
-    public boolean parser (Document doc)
+    public static boolean parser (Document doc)
     {
 
             doc.getDocumentElement ().normalize ();
@@ -107,10 +107,10 @@ public class WsdlParser {
 	                if (((org.w3c.dom.Element) bindingElement).getAttribute("name").equals(ServiceName + "Soap"))
 	                {
 	                    String portTypeNS = ((org.w3c.dom.Element) bindingElement).getAttribute("type").replaceFirst("tns:", "");
-	                    //System.out.println("Type : " + portTypeNS);
+	                    System.out.println("Type : " + portTypeNS);
 	                    //get operations
-	                    NodeList operations = ((Document) bindingElement).getElementsByTagName("wsdl:operation");
-	                    //System.out.println("Total no of bindings : " + operations.getLength());
+	                    NodeList operations = (bindingElement).getElementsByTagName("wsdl:operation");
+	                    System.out.println("Total no of Operations : " + operations.getLength());
 	                    //instatiate the Method array now we know how many Methods there are.
 	                    Methods = new Method[operations.getLength()];
 	                    //Loop through Methods
@@ -192,189 +192,189 @@ public class WsdlParser {
 	                            //add newFunc to Methods array
 	                            Methods[op] = newFunc;
 	                        }
-	                    }
+	                   }
 	                }
 	                //Soap12
-	                if (((org.w3c.dom.Element) bindingElement).getAttribute("name").equals(ServiceName + "Soap12"))
-	                {
-	                    String portTypeNS = ((org.w3c.dom.Element) bindingElement).getAttribute("type").replaceFirst("tns:", "");
-	                    //System.out.println("Type : " + portTypeNS);
-	                    //get operations
-	                    NodeList operations = ((Document) bindingElement).getElementsByTagName("wsdl:operation");
-	                    //System.out.println("Total no of bindings : " + operations.getLength());
-	                    //instatiate the Method array now we know how many Methods there are.
-	                    Methods = new Method[operations.getLength()];
-	                    //Loop through Methods
-	                    for(int op=0; op<operations.getLength() ; op++)
-	                    {
-	                        Node operationNode = operations.item(op);
-	                        if(bindingNode.getNodeType() == Node.ELEMENT_NODE)
-	                        {
-	                            //get element
-	                            Element operationElement = (Element)operationNode;
-	                            //create new instance
-	                            Method newFunc = new Method();
-	                            newFunc.Name = operationElement.getAttribute("name");
-	                            //get operation list and element
-	                            NodeList soapOpList = operationElement.getElementsByTagName("soap:operation");
-	                            Element soapOpElement = (Element)soapOpList.item(0);
-	                            newFunc.SoapAction = soapOpElement.getAttribute("soapAction");
-	                            //get port types
-	                            NodeList portTypes = doc.getElementsByTagName("wsdl:portType");
-	                            //loop through elements
-	                            for(int pt=0; pt<portTypes.getLength() ; pt++)
-	                            {
-	                                Node portTypeNode = portTypes.item(pt);
-	                                if(portTypeNode.getNodeType() == Node.ELEMENT_NODE)
-	                                {
-	                                    Element portTypeElement = (Element)portTypeNode;
-	                                    //check to see if it is the same as the current operation
-	                                    if (portTypeElement.getAttribute("name").equals(portTypeNS))
-	                                    {
-	                                        //get the operations for this portType
-	                                        NodeList operationList = portTypeElement.getElementsByTagName("wsdl:operation");
-	                                        //loop through operation list
-	                                        for(int ol=0; ol<operationList.getLength() ; ol++)
-	                                        {
-	                                            Node operationListNode = operationList.item(ol);
-	                                            if(operationListNode.getNodeType() == Node.ELEMENT_NODE)
-	                                            {
-	                                                Element operationListElement = (Element)operationListNode;
-	                                                //see if the element matches the Method anem
-	                                                if (operationListElement.getAttribute("name").equals(newFunc.Name))
-	                                                {
-	                                                    //is this Method - get input parameter type
-	                                                    NodeList inputList = operationListElement.getElementsByTagName("wsdl:input");
-	                                                    String inputMessage = ((Element)inputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
-	                                                    //is this Method - get return type
-	                                                    NodeList outputList = operationListElement.getElementsByTagName("wsdl:output");
-	                                                    String outputMessage = ((Element)outputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
-	                                                    //now need to get the Types of the return and property value
-	                                                    //get port types
-	                                                    NodeList messages = doc.getElementsByTagName("wsdl:message");
-	                                                    for(int ml=0; ml<messages.getLength() ; ml++)
-	                                                    {
-	                                                        Node messageNode = messages.item(ml);
-	                                                        if(messageNode.getNodeType() == Node.ELEMENT_NODE)
-	                                                        {
-	                                                            //convert to element
-	                                                            Element messageElement = (Element)messageNode;
-	                                                            //compare against inputMessage name
-	                                                            if (messageElement.getAttribute("name").equals(inputMessage))
-	                                                            {
-	                                                                newFunc.InputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
-	                                                                //System.out.println("In " + newFunc.InputType);
-	                                                            }
-	                                                            else //compare against inputMessage name
-	                                                            if (messageElement.getAttribute("name").equals(outputMessage))
-	                                                            {
-	                                                                //get response type
-	                                                                //get input param type
-	                                                                newFunc.OutputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
-	                                                            }
-	                                                        }
-	                                                    }
-	                                                }
-	                                            }
-	                                        }
-	                                    }
-	                                }
-	                            }
-	                            //add newFunc to Methods array
-	                            Methods[op] = newFunc;
-	                        }
-	                    }
-	                }
-	                if (((org.w3c.dom.Element) bindingElement).getAttribute("name").equals(ServiceName + "HttpPost"))
-	                {
-	                    String portTypeNS = ((org.w3c.dom.Element) bindingElement).getAttribute("type").replaceFirst("tns:", "");
-	                    //System.out.println("Type : " + portTypeNS);
-	                    //get operations
-	                    NodeList operations = ((Document) bindingElement).getElementsByTagName("wsdl:operation");
-	                    //System.out.println("Total no of Methods : " + operations.getLength());
-	                    //instatiate the Method array now we know how many Methods there are.
-	                    Methods = new Method[operations.getLength()];
-	                    //Loop through Methods
-	                    for(int op=0; op<operations.getLength() ; op++)
-	                    {
-	                        Node operationNode = operations.item(op);
-	                        if(bindingNode.getNodeType() == Node.ELEMENT_NODE)
-	                        {
-	                            //get element
-	                            Element operationElement = (Element)operationNode;
-	                            //create new instance
-	                            Method newFunc = new Method();
-	                            newFunc.Name = operationElement.getAttribute("name");
-	                            //get operation list and element
-	                            NodeList soapOpList = operationElement.getElementsByTagName("soap:operation");
-	                            Element soapOpElement = (Element)soapOpList.item(0);
-	                            newFunc.SoapAction = soapOpElement.getAttribute("soapAction");
-	                            //get port types
-	                            NodeList portTypes = doc.getElementsByTagName("wsdl:portType");
-	                            //loop through elements
-	                            for(int pt=0; pt<portTypes.getLength() ; pt++)
-	                            {
-	                                Node portTypeNode = portTypes.item(pt);
-	                                if(portTypeNode.getNodeType() == Node.ELEMENT_NODE)
-	                                {
-	                                    Element portTypeElement = (Element)portTypeNode;
-	                                    //check to see if it is the same as the current operation
-	                                    if (portTypeElement.getAttribute("name").equals(portTypeNS))
-	                                    {
-	                                        //get the operations for this portType
-	                                        NodeList operationList = portTypeElement.getElementsByTagName("wsdl:operation");
-	                                        //loop through operation list
-	                                        for(int ol=0; ol<operationList.getLength() ; ol++)
-	                                        {
-	                                            Node operationListNode = operationList.item(ol);
-	                                            if(operationListNode.getNodeType() == Node.ELEMENT_NODE)
-	                                            {
-	                                                Element operationListElement = (Element)operationListNode;
-	                                                //see if the element matches the Method anem
-	                                                if (operationListElement.getAttribute("name").equals(newFunc.Name))
-	                                                {
-	                                                    //is this Method - get input parameter type
-	                                                    NodeList inputList = operationListElement.getElementsByTagName("wsdl:input");
-	                                                    String inputMessage = ((Element)inputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
-	                                                    //is this Method - get return type
-	                                                    NodeList outputList = operationListElement.getElementsByTagName("wsdl:output");
-	                                                    String outputMessage = ((Element)outputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
-	                                                    //now need to get the Types of the return and property value
-	                                                    //get port types
-	                                                    NodeList messages = doc.getElementsByTagName("wsdl:message");
-	                                                    for(int ml=0; ml<messages.getLength() ; ml++)
-	                                                    {
-	                                                        Node messageNode = messages.item(ml);
-	                                                        if(messageNode.getNodeType() == Node.ELEMENT_NODE)
-	                                                        {
-	                                                            //convert to element
-	                                                            Element messageElement = (Element)messageNode;
-	                                                            //compare against inputMessage name
-	                                                            if (messageElement.getAttribute("name").equals(inputMessage))
-	                                                            {
-	                                                                newFunc.InputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
-	                                                                //System.out.println("In " + newFunc.InputType);
-	                                                            }
-	                                                            else //compare against inputMessage name
-	                                                            if (messageElement.getAttribute("name").equals(outputMessage))
-	                                                            {
-	                                                                //get response type
-	                                                                //get input param type
-	                                                                newFunc.OutputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
-	                                                            }
-	                                                        }
-	                                                    }
-	                                                }
-	                                            }
-	                                        }
-	                                    }
-	                                }
-	                            }
-	                            //add newFunc to Methods array
-	                            Methods[op] = newFunc;
-	                        }
-	                    }
-	                }
+//	                if ((bindingElement).getAttribute("name").equals(ServiceName + "Soap12"))
+//	                {
+//	                    String portTypeNS = (bindingElement).getAttribute("type").replaceFirst("tns:", "");
+//	                    //System.out.println("Type : " + portTypeNS);
+//	                    //get operations
+//	                    NodeList operations = (bindingElement).getElementsByTagName("wsdl:operation");
+//	                    //System.out.println("Total no of bindings : " + operations.getLength());
+//	                    //instatiate the Method array now we know how many Methods there are.
+//	                    Methods = new Method[operations.getLength()];
+//	                    //Loop through Methods
+//	                    for(int op=0; op<operations.getLength() ; op++)
+//	                    {
+//	                        Node operationNode = operations.item(op);
+//	                        if(bindingNode.getNodeType() == Node.ELEMENT_NODE)
+//	                        {
+//	                            //get element
+//	                            Element operationElement = (Element)operationNode;
+//	                            //create new instance
+//	                            Method newFunc = new Method();
+//	                            newFunc.Name = operationElement.getAttribute("name");
+//	                            //get operation list and element
+//	                            NodeList soapOpList = operationElement.getElementsByTagName("soap:operation");
+//	                            Element soapOpElement = (Element)soapOpList.item(0);
+//	                            newFunc.SoapAction = ((Element)soapOpElement).getAttribute("soapAction");
+//	                            //get port types
+//	                            NodeList portTypes = doc.getElementsByTagName("wsdl:portType");
+//	                            //loop through elements
+//	                            for(int pt=0; pt<portTypes.getLength() ; pt++)
+//	                            {
+//	                                Node portTypeNode = portTypes.item(pt);
+//	                                if(portTypeNode.getNodeType() == Node.ELEMENT_NODE)
+//	                                {
+//	                                    Element portTypeElement = (Element)portTypeNode;
+//	                                    //check to see if it is the same as the current operation
+//	                                    if (portTypeElement.getAttribute("name").equals(portTypeNS))
+//	                                    {
+//	                                        //get the operations for this portType
+//	                                        NodeList operationList = portTypeElement.getElementsByTagName("wsdl:operation");
+//	                                        //loop through operation list
+//	                                        for(int ol=0; ol<operationList.getLength() ; ol++)
+//	                                        {
+//	                                            Node operationListNode = operationList.item(ol);
+//	                                            if(operationListNode.getNodeType() == Node.ELEMENT_NODE)
+//	                                            {
+//	                                                Element operationListElement = (Element)operationListNode;
+//	                                                //see if the element matches the Method anem
+//	                                                if (operationListElement.getAttribute("name").equals(newFunc.Name))
+//	                                                {
+//	                                                    //is this Method - get input parameter type
+//	                                                    NodeList inputList = operationListElement.getElementsByTagName("wsdl:input");
+//	                                                    String inputMessage = ((Element)inputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
+//	                                                    //is this Method - get return type
+//	                                                    NodeList outputList = operationListElement.getElementsByTagName("wsdl:output");
+//	                                                    String outputMessage = ((Element)outputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
+//	                                                    //now need to get the Types of the return and property value
+//	                                                    //get port types
+//	                                                    NodeList messages = doc.getElementsByTagName("wsdl:message");
+//	                                                    for(int ml=0; ml<messages.getLength() ; ml++)
+//	                                                    {
+//	                                                        Node messageNode = messages.item(ml);
+//	                                                        if(messageNode.getNodeType() == Node.ELEMENT_NODE)
+//	                                                        {
+//	                                                            //convert to element
+//	                                                            Element messageElement = (Element)messageNode;
+//	                                                            //compare against inputMessage name
+//	                                                            if (messageElement.getAttribute("name").equals(inputMessage))
+//	                                                            {
+//	                                                                newFunc.InputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
+//	                                                                //System.out.println("In " + newFunc.InputType);
+//	                                                            }
+//	                                                            else //compare against inputMessage name
+//	                                                            if (messageElement.getAttribute("name").equals(outputMessage))
+//	                                                            {
+//	                                                                //get response type
+//	                                                                //get input param type
+//	                                                                newFunc.OutputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
+//	                                                            }
+//	                                                        }
+//	                                                    }
+//	                                                }
+//	                                            }
+//	                                        }
+//	                                    }
+//	                                }
+//	                            }
+//	                            //add newFunc to Methods array
+//	                            Methods[op] = newFunc;
+//	                        }
+//	                    }
+//	                }
+//	                if (((org.w3c.dom.Element) bindingElement).getAttribute("name").equals(ServiceName + "HttpPost"))
+//	                {
+//	                    String portTypeNS = ((org.w3c.dom.Element) bindingElement).getAttribute("type").replaceFirst("tns:", "");
+//	                    //System.out.println("Type : " + portTypeNS);
+//	                    //get operations
+//	                    NodeList operations = ((Document) bindingElement).getElementsByTagName("wsdl:operation");
+//	                    //System.out.println("Total no of Methods : " + operations.getLength());
+//	                    //instatiate the Method array now we know how many Methods there are.
+//	                    Methods = new Method[operations.getLength()];
+//	                    //Loop through Methods
+//	                    for(int op=0; op<operations.getLength() ; op++)
+//	                    {
+//	                        Node operationNode = operations.item(op);
+//	                        if(bindingNode.getNodeType() == Node.ELEMENT_NODE)
+//	                        {
+//	                            //get element
+//	                            Element operationElement = (Element)operationNode;
+//	                            //create new instance
+//	                            Method newFunc = new Method();
+//	                            newFunc.Name = operationElement.getAttribute("name");
+//	                            //get operation list and element
+//	                            NodeList soapOpList = operationElement.getElementsByTagName("soap:operation");
+//	                            Element soapOpElement = (Element)soapOpList.item(0);
+//	                            newFunc.SoapAction = soapOpElement.getAttribute("soapAction");
+//	                            //get port types
+//	                            NodeList portTypes = doc.getElementsByTagName("wsdl:portType");
+//	                            //loop through elements
+//	                            for(int pt=0; pt<portTypes.getLength() ; pt++)
+//	                            {
+//	                                Node portTypeNode = portTypes.item(pt);
+//	                                if(portTypeNode.getNodeType() == Node.ELEMENT_NODE)
+//	                                {
+//	                                    Element portTypeElement = (Element)portTypeNode;
+//	                                    //check to see if it is the same as the current operation
+//	                                    if (portTypeElement.getAttribute("name").equals(portTypeNS))
+//	                                    {
+//	                                        //get the operations for this portType
+//	                                        NodeList operationList = portTypeElement.getElementsByTagName("wsdl:operation");
+//	                                        //loop through operation list
+//	                                        for(int ol=0; ol<operationList.getLength() ; ol++)
+//	                                        {
+//	                                            Node operationListNode = operationList.item(ol);
+//	                                            if(operationListNode.getNodeType() == Node.ELEMENT_NODE)
+//	                                            {
+//	                                                Element operationListElement = (Element)operationListNode;
+//	                                                //see if the element matches the Method anem
+//	                                                if (operationListElement.getAttribute("name").equals(newFunc.Name))
+//	                                                {
+//	                                                    //is this Method - get input parameter type
+//	                                                    NodeList inputList = operationListElement.getElementsByTagName("wsdl:input");
+//	                                                    String inputMessage = ((Element)inputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
+//	                                                    //is this Method - get return type
+//	                                                    NodeList outputList = operationListElement.getElementsByTagName("wsdl:output");
+//	                                                    String outputMessage = ((Element)outputList.item(0)).getAttribute("message").replaceFirst("tns:", "");
+//	                                                    //now need to get the Types of the return and property value
+//	                                                    //get port types
+//	                                                    NodeList messages = doc.getElementsByTagName("wsdl:message");
+//	                                                    for(int ml=0; ml<messages.getLength() ; ml++)
+//	                                                    {
+//	                                                        Node messageNode = messages.item(ml);
+//	                                                        if(messageNode.getNodeType() == Node.ELEMENT_NODE)
+//	                                                        {
+//	                                                            //convert to element
+//	                                                            Element messageElement = (Element)messageNode;
+//	                                                            //compare against inputMessage name
+//	                                                            if (messageElement.getAttribute("name").equals(inputMessage))
+//	                                                            {
+//	                                                                newFunc.InputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
+//	                                                                //System.out.println("In " + newFunc.InputType);
+//	                                                            }
+//	                                                            else //compare against inputMessage name
+//	                                                            if (messageElement.getAttribute("name").equals(outputMessage))
+//	                                                            {
+//	                                                                //get response type
+//	                                                                //get input param type
+//	                                                                newFunc.OutputType.nameOFType = ((Element)messageElement.getElementsByTagName("wsdl:part").item(0)).getAttribute("element").replaceFirst("tns:", "");
+//	                                                            }
+//	                                                        }
+//	                                                    }
+//	                                                }
+//	                                            }
+//	                                        }
+//	                                    }
+//	                                }
+//	                            }
+//	                            //add newFunc to Methods array
+//	                            Methods[op] = newFunc;
+//	                        }
+//	                    }
+//	                }
 	            }
 	        }
 	    }
@@ -506,7 +506,7 @@ public class WsdlParser {
 	    return true;
     }
 
-    public Document getWsdl (String URL) throws SAXException, IOException, ParserConfigurationException
+    public static Document getWsdl (String URL) throws SAXException, IOException, ParserConfigurationException
     {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -514,7 +514,7 @@ public class WsdlParser {
 	
 	    return doc;
     }
-    public boolean verifyWsdl (Document WSDL)
+    public static boolean verifyWsdl (Document WSDL)
     {
             boolean verify = true ;
             return verify ;

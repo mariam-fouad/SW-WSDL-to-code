@@ -5,6 +5,12 @@ public class Method extends WSDLElement{
     type OutputType;
     type InputType;
     
+    public Method()
+    {
+    	SoapAction = new String();
+    	OutputType = new type();
+    	InputType = new type();
+    }
 	public String getAction() {
 		return SoapAction;
 	}

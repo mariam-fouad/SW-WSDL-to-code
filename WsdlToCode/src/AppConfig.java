@@ -1,9 +1,10 @@
 
 public class AppConfig {
 	
-	private String URL ;
-	private String PackageName ;
-	private String FilePath ;
+	String URL ;
+	String PackageName ;
+	String FilePath ;
+	
 	public String getURL() {
 		return URL;
 	}

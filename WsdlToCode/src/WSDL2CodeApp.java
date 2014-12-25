@@ -1,3 +1,9 @@
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -92,7 +98,13 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
         btnProcess.setText("Process");
         btnProcess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProcessActionPerformed(evt);
+                try {
+					btnProcessActionPerformed(evt);
+				} catch (SAXException | IOException
+						| ParserConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -142,32 +154,39 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
-        
+    private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) throws SAXException, IOException, ParserConfigurationException {//GEN-FIRST:event_btnProcessActionPerformed
+    	String URL = edtUrl.getText();
+    	AppConfig App = new AppConfig();
+    	App.URL = URL;
+    	App.FilePath = edtOutput.getText();
+        WsdlParser.processWSDL(App.URL);
         String packageName;
         if (edtPackage.getText().length() != 0)
         {
             packageName = edtPackage.getText();
+            App.PackageName = packageName;
         }
         else
         {
             packageName = convertUrlToJavaPackageName(WsdlParser.Namespace);
+            App.PackageName = packageName;
         }
-        if (FileHelper.createFolderStructure(edtOutput.getText(), packageName))
+        
+        if (FileHelper.createFolderStructure(App.FilePath, App.PackageName))
         {
             try
             {
                 //folder structure created  continue processing
                 // create service file
-                Generator.CreateServiceClass(packageName);
+                Generator.CreateServiceClass(App.PackageName);
                 //prepare baseobject
-                Generator.CreateBaseObjectFile(packageName);
+                Generator.CreateBaseObjectFile(App.PackageName);
                 //prepare array object
-                Generator.CreateLiteralVectorArrayFile(packageName);
+                Generator.CreateLiteralVectorArrayFile(App.PackageName);
                 //create classes
-                Generator.CreateClasess(packageName);
+                Generator.CreateClasess(App.PackageName);
                 //create paramter and return class
-                Generator.CreateMethodClasses(packageName);
+                Generator.CreateMethodClasses(App.PackageName);
             }
             catch (Exception ex)
             {
