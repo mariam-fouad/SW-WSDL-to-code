@@ -64,6 +64,23 @@ public class WsdlParser {
         }
         return null;
     }
+    public static ArrayList <String> GetAllNames()
+    {
+        //first try the Classes array
+    	ArrayList <String> result = new ArrayList <String> ();
+        for (Class spC : Classes)
+        {
+           result.add(spC.Name);
+            
+        }
+
+	    for (Class spC : ComplexTypes)
+	    {
+	        result.add(spC.Name);
+	       
+	    }
+	    return result ;
+    }
     public static void reset()
     {
 
@@ -94,7 +111,7 @@ public class WsdlParser {
 	        Element serviceElement = (Element)serviceNode;
 	        //serviceNode
 	        ServiceName = ((org.w3c.dom.Element) serviceElement).getAttribute("name");
-	        System.out.println("Service Name: " + ServiceName);
+	        //System.out.println("Service Name: " + ServiceName);
 	        //Get Bindings
 	        NodeList bindings = doc.getElementsByTagName("wsdl:binding");
 	        //get binding and then the Methods
@@ -107,10 +124,10 @@ public class WsdlParser {
 	                if (((org.w3c.dom.Element) bindingElement).getAttribute("name").equals(ServiceName + "Soap"))
 	                {
 	                    String portTypeNS = ((org.w3c.dom.Element) bindingElement).getAttribute("type").replaceFirst("tns:", "");
-	                    System.out.println("Type : " + portTypeNS);
+	                    //System.out.println("Type : " + portTypeNS);
 	                    //get operations
 	                    NodeList operations = (bindingElement).getElementsByTagName("wsdl:operation");
-	                    System.out.println("Total no of Operations : " + operations.getLength());
+	                    //System.out.println("Total no of Operations : " + operations.getLength());
 	                    //instatiate the Method array now we know how many Methods there are.
 	                    Methods = new Method[operations.getLength()];
 	                    //Loop through Methods
@@ -433,7 +450,7 @@ public class WsdlParser {
 	                                newClass.Properties.add(newProp);
 	                            }
 	                        }
-	                        System.out.println("Element Class: " + newClass.Name + " Properties: " + newClass.Properties.size());
+	                        //System.out.println("Element Class: " + newClass.Name +  newClass.Properties.size());
 	                        Classes.add(newClass);
 	                    }
 	                }
@@ -499,8 +516,8 @@ public class WsdlParser {
 	                }
 	            }
 	            //all class should have been created now - trim array
-	            System.out.println("Class Count: " + Classes.size());
-	            System.out.println("Complex Types: " + ComplexTypes.size());
+	            //System.out.println("Class Count: " + Classes.size());
+	            //System.out.println("Complex Types: " + ComplexTypes.size());
 	        }
 	    }
 	    return true;

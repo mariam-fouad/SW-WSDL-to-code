@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -160,6 +161,9 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
     	App.URL = URL;
     	App.FilePath = edtOutput.getText();
         WsdlParser.processWSDL(App.URL);
+        ArrayList<String> c = WsdlParser.GetAllNames();
+        for (int i=0; i<c.size() ;i++)
+        	System.out.println(c.get(i));
         String packageName;
         if (edtPackage.getText().length() != 0)
         {
