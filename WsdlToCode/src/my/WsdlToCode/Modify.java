@@ -9,14 +9,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 
 /**
  *
  * @author Jasmin
  */
 public class Modify extends javax.swing.JFrame {
-    public static ArrayList<JCheckBox> MethodsBox = new ArrayList();
+    ArrayList<String> CheckBoxesNames = WsdlParser.GetAllNames();
     /**
      * Creates new form Modify
      */
@@ -56,7 +55,7 @@ public class Modify extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(324, 54, 288, 234);
+        jScrollPane1.setBounds(18, 54, 288, 324);
 
         javax.swing.GroupLayout PanCheckBoxesLayout = new javax.swing.GroupLayout(PanCheckBoxes);
         PanCheckBoxes.setLayout(PanCheckBoxesLayout);
@@ -66,11 +65,11 @@ public class Modify extends javax.swing.JFrame {
         );
         PanCheckBoxesLayout.setVerticalGroup(
             PanCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 324, Short.MAX_VALUE)
+            .addGap(0, 216, Short.MAX_VALUE)
         );
 
         getContentPane().add(PanCheckBoxes);
-        PanCheckBoxes.setBounds(18, 54, 288, 324);
+        PanCheckBoxes.setBounds(324, 54, 288, 216);
 
         btnModify.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnModify.setText("Modify");
@@ -136,17 +135,24 @@ public class Modify extends javax.swing.JFrame {
 
     private void btnShowClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowClassesActionPerformed
         
-        ArrayList<String> c = WsdlParser.GetAllNames();
-        PanCheckBoxes.setLayout(new GridLayout(c.size(), 1));
-        for(int i = 0 ; i < c.size() ; i++)
+        PanCheckBoxes.setLayout(new GridLayout(CheckBoxesNames.size(),1));
+        //PanCheckBoxes.setLayout(new FlowLayout());
+        JCheckBox cb[] = new JCheckBox[CheckBoxesNames.size()];
+        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
         {
-            System.out.println(c.get(i));
-            JCheckBox JCB = new JCheckBox();
-            JCB.setName(c.get(i) + "JCB");
-            PanCheckBoxes.add(JCB);
+            cb[i]=new JCheckBox(CheckBoxesNames.get(i));
+            cb[i].setVisible(false);
         }
-        //MethodsCheckBoxes.setLayout(new FlowLayout());
+        
         add(PanCheckBoxes);
+        for(int i = 0 ; i < CheckBoxesNames.size() ; i++)
+        {
+            PanCheckBoxes.add(cb[i]);
+        }
+        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
+        {
+            cb[i].setVisible(true);
+        }
     }//GEN-LAST:event_btnShowClassesActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
