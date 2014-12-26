@@ -16,6 +16,8 @@ import javax.swing.JCheckBox;
  */
 public class Modify extends javax.swing.JFrame {
     ArrayList<String> CheckBoxesNames = WsdlParser.GetAllNames();
+    ArrayList<String> CheckedBoxesNames = new ArrayList();
+    JCheckBox cb[] = new JCheckBox[CheckBoxesNames.size()];
     /**
      * Creates new form Modify
      */
@@ -137,7 +139,6 @@ public class Modify extends javax.swing.JFrame {
         
         PanCheckBoxes.setLayout(new GridLayout(CheckBoxesNames.size(),1));
         //PanCheckBoxes.setLayout(new FlowLayout());
-        JCheckBox cb[] = new JCheckBox[CheckBoxesNames.size()];
         for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
         {
             cb[i]=new JCheckBox(CheckBoxesNames.get(i));
@@ -160,7 +161,17 @@ public class Modify extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        // TODO add your handling code here:
+        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
+        {
+            if(cb[i].isSelected() == true)
+            {
+                CheckedBoxesNames.add(cb[i].getText());
+            }
+        }
+        for(int i = 0 ; i < CheckedBoxesNames.size() ; i++) 
+        {
+            System.out.println(CheckedBoxesNames.get(i));
+        }
     }//GEN-LAST:event_btnModifyActionPerformed
 
     /**
