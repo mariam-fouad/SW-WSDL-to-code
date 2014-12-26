@@ -1,16 +1,23 @@
 package my.WsdlToCode;
 
+import static my.WsdlToCode.WSDL2CodeApp.convertUrlToJavaPackageName;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.swing.JCheckBox;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import org.xml.sax.SAXException;
+
 import javax.swing.JFileChooser;
+
 import java.awt.Component;
+
 import javax.swing.JComponent;
 
 
@@ -173,10 +180,62 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
-    	String URL = edtUrl.getText();
-        String FilePath = edtOutput.getText();
-        String packageName = edtPackage.getText();
-        new Modify(URL, FilePath, packageName).setVisible(true);
+    	
+        try 
+        {
+        	String URL = edtUrl.getText();
+            String FilePath = edtOutput.getText();
+            String packageName = edtPackage.getText();
+            AppConfig App = new AppConfig();
+            App.URL = URL;
+            App.FilePath = FilePath;
+            App.PackageName = packageName;
+			WsdlParser.processWSDL(App.URL);
+			if (packageName.length() == 0)
+            {
+                packageName = convertUrlToJavaPackageName(WsdlParser.Namespace);
+                App.PackageName = packageName;
+            }
+
+            if (FileHelper.createFolderStructure(App.FilePath, App.PackageName))
+            {
+                try
+                {
+                    //folder structure created  continue processing
+                    // create service file
+                    Generator.CreateServiceClass(App.PackageName);
+                    //prepare baseobject
+                    Generator.CreateBaseObjectFile(App.PackageName);
+                    //prepare array object
+                    Generator.CreateLiteralVectorArrayFile(App.PackageName);
+                    //create classes
+                    Generator.CreateClasess(App.PackageName);
+                    //create paramter and return class
+                    Generator.CreateMethodClasses(App.PackageName);
+                }
+                catch (Exception ex)
+                {
+                    System.out.print(ex.getMessage());
+                }
+            }
+		} 
+        catch (SAXException e) 
+        {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+        catch (IOException e) 
+        {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+        catch (ParserConfigurationException e) 
+        {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        new Modify().setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_btnProcessActionPerformed

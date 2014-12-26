@@ -22,15 +22,11 @@ import javax.swing.JPanel;
  * @author Jasmin
  */
 public class Modify extends javax.swing.JFrame {
-    public static String Url, File_Path, Package_Name;
     public static ArrayList<JCheckBox> MethodsBox = new ArrayList();
     /**
      * Creates new form Modify
      */
-    public Modify(String URL, String FilePath, String packageName) {
-        Url = URL;
-        File_Path = FilePath;
-        Package_Name = packageName;
+    public Modify() {
         initComponents();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -130,68 +126,20 @@ public class Modify extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShowClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowClassesActionPerformed
-        try 
+        
+        ArrayList<String> c = WsdlParser.GetAllNames();
+        JPanel MethodsCheckBoxes = new JPanel();
+        MethodsCheckBoxes.setBounds(355, 54, 252, 234);
+        MethodsCheckBoxes.setLayout(new GridLayout(c.size(), 1));
+        for(int i = 0 ; i < c.size() ; i++)
         {
-            AppConfig App = new AppConfig();
-            App.URL = Url;
-            App.FilePath = File_Path;
-            App.PackageName = Package_Name;
-            WsdlParser.processWSDL(App.URL);
-            
-            ArrayList<String> c = WsdlParser.GetAllNames();
-            JPanel MethodsCheckBoxes = new JPanel();
-            MethodsCheckBoxes.setBounds(355, 54, 252, 234);
-            MethodsCheckBoxes.setLayout(new GridLayout(c.size(), 1));
-            for(int i = 0 ; i < c.size() ; i++)
-            {
-                System.out.println(c.get(i));
-                JCheckBox JCB = new JCheckBox();
-                JCB.setName(c.get(i) + "JCB");
-                MethodsCheckBoxes.add(new JCheckBox(c.get(i)));
-            }
-            //MethodsCheckBoxes.setLayout(new FlowLayout());
-            add(MethodsCheckBoxes);
-            
-            if (Package_Name.length() == 0)
-            {
-                Package_Name = convertUrlToJavaPackageName(WsdlParser.Namespace);
-                App.PackageName = Package_Name;
-            }
-
-            if (FileHelper.createFolderStructure(App.FilePath, App.PackageName))
-            {
-                try
-                {
-                    //folder structure created  continue processing
-                    // create service file
-                    Generator.CreateServiceClass(App.PackageName);
-                    //prepare baseobject
-                    Generator.CreateBaseObjectFile(App.PackageName);
-                    //prepare array object
-                    Generator.CreateLiteralVectorArrayFile(App.PackageName);
-                    //create classes
-                    Generator.CreateClasess(App.PackageName);
-                    //create paramter and return class
-                    Generator.CreateMethodClasses(App.PackageName);
-                }
-                catch (Exception ex)
-                {
-                    System.out.print(ex.getMessage());
-                }
-            }
-        } 
-        catch (SAXException ex) 
-        {
-            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (IOException ex) 
-        {
-            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (ParserConfigurationException ex) 
-        {
-            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(c.get(i));
+            JCheckBox JCB = new JCheckBox();
+            JCB.setName(c.get(i) + "JCB");
+            MethodsCheckBoxes.add(new JCheckBox(c.get(i)));
         }
+        //MethodsCheckBoxes.setLayout(new FlowLayout());
+        add(MethodsCheckBoxes);
     }//GEN-LAST:event_btnShowClassesActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
