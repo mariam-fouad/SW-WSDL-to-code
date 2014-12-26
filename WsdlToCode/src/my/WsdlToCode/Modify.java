@@ -98,6 +98,8 @@ public class Modify extends javax.swing.JFrame {
         getContentPane().add(btnSave);
         btnSave.setBounds(337, 314, 126, 36);
 
+        PanCheckBoxes.setBackground(null);
+
         javax.swing.GroupLayout PanCheckBoxesLayout = new javax.swing.GroupLayout(PanCheckBoxes);
         PanCheckBoxes.setLayout(PanCheckBoxesLayout);
         PanCheckBoxesLayout.setHorizontalGroup(
@@ -128,7 +130,7 @@ public class Modify extends javax.swing.JFrame {
         getContentPane().add(btnExit);
         btnExit.setBounds(470, 314, 126, 36);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/1d129676d0fa0fabfca9a8fd344268d21.jpg"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/294aa2667920e31644b7c556c6d455471.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(730, 400));
         jLabel2.setMinimumSize(new java.awt.Dimension(730, 400));
         jLabel2.setPreferredSize(new java.awt.Dimension(730, 400));

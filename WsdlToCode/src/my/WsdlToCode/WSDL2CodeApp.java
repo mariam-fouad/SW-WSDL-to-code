@@ -95,24 +95,27 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(544, 260));
         getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Url");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(21, 20, 42, 23);
         getContentPane().add(edtUrl);
         edtUrl.setBounds(21, 49, 389, 28);
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Output Folder");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(21, 83, 101, 23);
+        jLabel2.setBounds(21, 83, 126, 23);
         getContentPane().add(edtOutput);
         edtOutput.setBounds(21, 112, 389, 28);
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Package Name");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(21, 146, 108, 23);
+        jLabel3.setBounds(21, 146, 144, 23);
         getContentPane().add(edtPackage);
         edtPackage.setBounds(21, 175, 389, 28);
 
@@ -134,7 +137,7 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
         getContentPane().add(btnProcess);
         btnProcess.setBounds(416, 175, 97, 28);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/1d129676d0fa0fabfca9a8fd344268d21.jpg"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/294aa2667920e31644b7c556c6d455471.jpg"))); // NOI18N
         jLabel4.setPreferredSize(new java.awt.Dimension(539, 233));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
