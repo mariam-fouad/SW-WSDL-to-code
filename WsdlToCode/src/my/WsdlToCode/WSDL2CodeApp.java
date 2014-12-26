@@ -198,18 +198,15 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
         } 
         catch (SAXException e) 
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.print(e.getMessage());
         } 
         catch (IOException e) 
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.print(e.getMessage());
         } 
         catch (ParserConfigurationException e) 
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.print(e.getMessage());
         }
         new Modify().setVisible(true);
         this.setVisible(false);

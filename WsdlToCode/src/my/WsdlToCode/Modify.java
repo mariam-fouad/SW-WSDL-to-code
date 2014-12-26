@@ -39,6 +39,7 @@ public class Modify extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        PanCheckBoxes = new javax.swing.JPanel();
         btnModify = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnShowClasses = new javax.swing.JButton();
@@ -55,7 +56,21 @@ public class Modify extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(18, 54, 306, 324);
+        jScrollPane1.setBounds(324, 54, 288, 234);
+
+        javax.swing.GroupLayout PanCheckBoxesLayout = new javax.swing.GroupLayout(PanCheckBoxes);
+        PanCheckBoxes.setLayout(PanCheckBoxesLayout);
+        PanCheckBoxesLayout.setHorizontalGroup(
+            PanCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 288, Short.MAX_VALUE)
+        );
+        PanCheckBoxesLayout.setVerticalGroup(
+            PanCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 324, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(PanCheckBoxes);
+        PanCheckBoxes.setBounds(18, 54, 288, 324);
 
         btnModify.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnModify.setText("Modify");
@@ -65,13 +80,13 @@ public class Modify extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnModify);
-        btnModify.setBounds(342, 342, 288, 36);
+        btnModify.setBounds(324, 342, 288, 36);
 
         jLabel1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Modify");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(288, 18, 108, 36);
+        jLabel1.setBounds(288, 0, 108, 54);
 
         btnShowClasses.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnShowClasses.setText("Show Classes");
@@ -81,7 +96,7 @@ public class Modify extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnShowClasses);
-        btnShowClasses.setBounds(355, 296, 126, 36);
+        btnShowClasses.setBounds(337, 296, 126, 36);
 
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExit.setText("Exit");
@@ -91,7 +106,7 @@ public class Modify extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnExit);
-        btnExit.setBounds(488, 296, 126, 36);
+        btnExit.setBounds(470, 296, 126, 36);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/1d129676d0fa0fabfca9a8fd344268d21.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(730, 400));
@@ -103,8 +118,8 @@ public class Modify extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,18 +137,16 @@ public class Modify extends javax.swing.JFrame {
     private void btnShowClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowClassesActionPerformed
         
         ArrayList<String> c = WsdlParser.GetAllNames();
-        JPanel MethodsCheckBoxes = new JPanel();
-        MethodsCheckBoxes.setBounds(355, 54, 252, 234);
-        MethodsCheckBoxes.setLayout(new GridLayout(c.size(), 1));
+        PanCheckBoxes.setLayout(new GridLayout(c.size(), 1));
         for(int i = 0 ; i < c.size() ; i++)
         {
             System.out.println(c.get(i));
             JCheckBox JCB = new JCheckBox();
             JCB.setName(c.get(i) + "JCB");
-            MethodsCheckBoxes.add(new JCheckBox(c.get(i)));
+            PanCheckBoxes.add(JCB);
         }
         //MethodsCheckBoxes.setLayout(new FlowLayout());
-        add(MethodsCheckBoxes);
+        add(PanCheckBoxes);
     }//GEN-LAST:event_btnShowClassesActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
@@ -180,6 +193,7 @@ public class Modify extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanCheckBoxes;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnShowClasses;
