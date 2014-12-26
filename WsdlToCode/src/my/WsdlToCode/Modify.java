@@ -159,7 +159,8 @@ public class Modify extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseActionPerformed
-        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
+    	CheckedBoxesNames.clear();
+    	for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
         {
             if(cb[i].isSelected() == true)
             {
