@@ -3,22 +3,15 @@ package my.WsdlToCode;
 import static my.WsdlToCode.WSDL2CodeApp.convertUrlToJavaPackageName;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.swing.JCheckBox;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.xml.sax.SAXException;
 
-import javax.swing.JFileChooser;
-
-import java.awt.Component;
-
-import javax.swing.JComponent;
 
 
 /*
@@ -33,20 +26,6 @@ import javax.swing.JComponent;
  * @author Jasmin
  */
 public class WSDL2CodeApp extends javax.swing.JFrame {
-    private static void refreshUI(JComponent c, boolean includeParent)
-    {
-        if (includeParent)
-            c.updateUI();
-
-        for (int i = 0; i < c.getComponentCount(); i++)
-        {
-            Component child = c.getComponent(i);
-            if (child instanceof JComponent)
-            {
-                refreshUI((JComponent)child, true);
-            }
-        }
-    }
     static public String convertUrlToJavaPackageName(String url)
     {
         String packageName;
@@ -180,23 +159,21 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
-    	
-        try 
+    	try 
         {
-        	String URL = edtUrl.getText();
+            String URL = edtUrl.getText();
             String FilePath = edtOutput.getText();
             String packageName = edtPackage.getText();
             AppConfig App = new AppConfig();
             App.URL = URL;
             App.FilePath = FilePath;
             App.PackageName = packageName;
-			WsdlParser.processWSDL(App.URL);
-			if (packageName.length() == 0)
+            WsdlParser.processWSDL(App.URL);
+            if (packageName.length() == 0)
             {
                 packageName = convertUrlToJavaPackageName(WsdlParser.Namespace);
                 App.PackageName = packageName;
             }
-
             if (FileHelper.createFolderStructure(App.FilePath, App.PackageName))
             {
                 try
@@ -218,26 +195,24 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
                     System.out.print(ex.getMessage());
                 }
             }
-		} 
+        } 
         catch (SAXException e) 
         {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
         catch (IOException e) 
         {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
         catch (ParserConfigurationException e) 
         {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         new Modify().setVisible(true);
         this.setVisible(false);
-        
     }//GEN-LAST:event_btnProcessActionPerformed
 
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed

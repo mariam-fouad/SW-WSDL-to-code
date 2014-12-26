@@ -7,13 +7,7 @@ package my.WsdlToCode;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import static my.WsdlToCode.WSDL2CodeApp.convertUrlToJavaPackageName;
-import org.xml.sax.SAXException;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
