@@ -6,7 +6,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.swing.JCheckBox;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.xml.sax.SAXException;
+import javax.swing.JFileChooser;
+import java.awt.Component;
+import javax.swing.JComponent;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +26,20 @@ import org.xml.sax.SAXException;
  * @author Jasmin
  */
 public class WSDL2CodeApp extends javax.swing.JFrame {
+    private static void refreshUI(JComponent c, boolean includeParent)
+    {
+        if (includeParent)
+            c.updateUI();
+
+        for (int i = 0; i < c.getComponentCount(); i++)
+        {
+            Component child = c.getComponent(i);
+            if (child instanceof JComponent)
+            {
+                refreshUI((JComponent)child, true);
+            }
+        }
+    }
     static public String convertUrlToJavaPackageName(String url)
     {
         String packageName;
@@ -162,8 +182,21 @@ public class WSDL2CodeApp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProcessActionPerformed
 
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
-        ChooseFile.showOpenDialog(this);
-        edtOutput.setText(ChooseFile.getSelectedFile().getAbsolutePath());
+        try { 
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            ChooseFile.updateUI();
+            ChooseFile.showOpenDialog(this);
+            edtOutput.setText(ChooseFile.getSelectedFile().getAbsolutePath());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(WSDL2CodeApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(WSDL2CodeApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(WSDL2CodeApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(WSDL2CodeApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnBrowseActionPerformed
     /**
      * @param args the command line arguments

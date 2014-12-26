@@ -5,6 +5,8 @@
  */
 package my.WsdlToCode;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import static my.WsdlToCode.WSDL2CodeApp.convertUrlToJavaPackageName;
 import org.xml.sax.SAXException;
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 /**
  *
@@ -46,10 +49,10 @@ public class Modify extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         btnModify = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btnShowClasses = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        MethodsCheckBoxes = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -62,13 +65,7 @@ public class Modify extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(18, 72, 306, 306);
-
-        jLabel1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Modify");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(288, 18, 108, 36);
+        jScrollPane1.setBounds(18, 54, 306, 324);
 
         btnModify.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnModify.setText("Modify");
@@ -78,7 +75,23 @@ public class Modify extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnModify);
-        btnModify.setBounds(355, 314, 126, 54);
+        btnModify.setBounds(342, 342, 288, 36);
+
+        jLabel1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Modify");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(288, 18, 108, 36);
+
+        btnShowClasses.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnShowClasses.setText("Show Classes");
+        btnShowClasses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowClassesActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnShowClasses);
+        btnShowClasses.setBounds(355, 296, 126, 36);
 
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExit.setText("Exit");
@@ -88,24 +101,7 @@ public class Modify extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnExit);
-        btnExit.setBounds(488, 314, 126, 54);
-
-        MethodsCheckBoxes.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        MethodsCheckBoxes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        javax.swing.GroupLayout MethodsCheckBoxesLayout = new javax.swing.GroupLayout(MethodsCheckBoxes);
-        MethodsCheckBoxes.setLayout(MethodsCheckBoxesLayout);
-        MethodsCheckBoxesLayout.setHorizontalGroup(
-            MethodsCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 248, Short.MAX_VALUE)
-        );
-        MethodsCheckBoxesLayout.setVerticalGroup(
-            MethodsCheckBoxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 229, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(MethodsCheckBoxes);
-        MethodsCheckBoxes.setBounds(355, 72, 252, 234);
+        btnExit.setBounds(488, 296, 126, 36);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/1d129676d0fa0fabfca9a8fd344268d21.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(730, 400));
@@ -117,7 +113,7 @@ public class Modify extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -128,12 +124,12 @@ public class Modify extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 720, 414);
+        jPanel1.setBounds(0, 0, 648, 414);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+    private void btnShowClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowClassesActionPerformed
         try 
         {
             AppConfig App = new AppConfig();
@@ -141,14 +137,20 @@ public class Modify extends javax.swing.JFrame {
             App.FilePath = File_Path;
             App.PackageName = Package_Name;
             WsdlParser.processWSDL(App.URL);
+            
             ArrayList<String> c = WsdlParser.GetAllNames();
+            JPanel MethodsCheckBoxes = new JPanel();
+            MethodsCheckBoxes.setBounds(355, 54, 252, 234);
+            MethodsCheckBoxes.setLayout(new GridLayout(c.size(), 1));
             for(int i = 0 ; i < c.size() ; i++)
             {
-                MethodsBox.add(new javax.swing.JCheckBox());
-                MethodsBox.get(i).setText(c.get(i));
-                MethodsCheckBoxes.add(MethodsBox.get(i));
+                System.out.println(c.get(i));
+                JCheckBox JCB = new JCheckBox();
+                JCB.setName(c.get(i) + "JCB");
+                MethodsCheckBoxes.add(new JCheckBox(c.get(i)));
             }
-            MethodsCheckBoxes.setVisible(true);
+            //MethodsCheckBoxes.setLayout(new FlowLayout());
+            add(MethodsCheckBoxes);
             
             if (Package_Name.length() == 0)
             {
@@ -190,11 +192,15 @@ public class Modify extends javax.swing.JFrame {
         {
             Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnModifyActionPerformed
+    }//GEN-LAST:event_btnShowClassesActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModifyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,9 +238,9 @@ public class Modify extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel MethodsCheckBoxes;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnModify;
+    private javax.swing.JButton btnShowClasses;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
