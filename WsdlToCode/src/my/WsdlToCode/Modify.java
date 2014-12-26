@@ -7,8 +7,15 @@ package my.WsdlToCode;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,11 +46,12 @@ public class Modify extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        ModifyTxtArea = new javax.swing.JTextArea();
+        btnChoose = new javax.swing.JButton();
+        btnShow = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
         PanCheckBoxes = new javax.swing.JPanel();
-        btnModify = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnShowClasses = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,12 +60,42 @@ public class Modify extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(645, 430));
         getContentPane().setLayout(null);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        ModifyTxtArea.setColumns(20);
+        ModifyTxtArea.setRows(5);
+        jScrollPane1.setViewportView(ModifyTxtArea);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(18, 54, 288, 324);
+
+        btnChoose.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnChoose.setText("Choose");
+        btnChoose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChooseActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnChoose);
+        btnChoose.setBounds(337, 278, 126, 36);
+
+        btnShow.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnShow.setText("Show Classes");
+        btnShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnShow);
+        btnShow.setBounds(470, 278, 126, 36);
+
+        btnSave.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSave);
+        btnSave.setBounds(337, 314, 126, 36);
 
         javax.swing.GroupLayout PanCheckBoxesLayout = new javax.swing.GroupLayout(PanCheckBoxes);
         PanCheckBoxes.setLayout(PanCheckBoxesLayout);
@@ -73,31 +111,11 @@ public class Modify extends javax.swing.JFrame {
         getContentPane().add(PanCheckBoxes);
         PanCheckBoxes.setBounds(324, 54, 288, 216);
 
-        btnModify.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnModify.setText("Modify");
-        btnModify.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModifyActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnModify);
-        btnModify.setBounds(324, 342, 288, 36);
-
         jLabel1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Modify");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(288, 0, 108, 54);
-
-        btnShowClasses.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnShowClasses.setText("Show Classes");
-        btnShowClasses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowClassesActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnShowClasses);
-        btnShowClasses.setBounds(337, 296, 126, 36);
 
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExit.setText("Exit");
@@ -107,7 +125,7 @@ public class Modify extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnExit);
-        btnExit.setBounds(470, 296, 126, 36);
+        btnExit.setBounds(470, 314, 126, 36);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/WsdlToCode/1d129676d0fa0fabfca9a8fd344268d21.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(730, 400));
@@ -135,8 +153,57 @@ public class Modify extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnShowClassesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowClassesActionPerformed
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseActionPerformed
+        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
+        {
+            if(cb[i].isSelected() == true)
+            {
+                CheckedBoxesNames.add(cb[i].getText());
+            }
+        }
+        for(int i = 0 ; i < CheckedBoxesNames.size() ; i++) 
+        {
+            System.out.println(CheckedBoxesNames.get(i));
+        }
         
+        InputStream file = null;
+        try 
+        {
+            String filePath = FileHelper.GetOutputFolderPath() + "/" + CheckedBoxesNames.get(0) + ".java";
+            file = new FileInputStream(filePath);
+            if (file != null)
+            {
+                String Text = FileHelper.getContents(file);
+                ModifyTxtArea.setText(Text);
+                file.close();
+            }
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally 
+        {
+            try 
+            {
+                file.close();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnChooseActionPerformed
+
+    private void btnShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowActionPerformed
         PanCheckBoxes.setLayout(new GridLayout(CheckBoxesNames.size(),1));
         //PanCheckBoxes.setLayout(new FlowLayout());
         for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
@@ -154,25 +221,50 @@ public class Modify extends javax.swing.JFrame {
         {
             cb[i].setVisible(true);
         }
-    }//GEN-LAST:event_btnShowClassesActionPerformed
+    }//GEN-LAST:event_btnShowActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btnExitActionPerformed
-
-    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        String filePath = FileHelper.GetOutputFolderPath() + "/" + CheckedBoxesNames.get(0) + ".java";
+        FileHelper.WriteClassTextToFile(filePath, ModifyTxtArea.getText());
+        CheckedBoxesNames.remove(0);
+        if(CheckedBoxesNames.isEmpty())
         {
-            if(cb[i].isSelected() == true)
+            JOptionPane.showMessageDialog(null, "Your Modification is Finished", "Finish Message", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+        InputStream file = null;
+        try 
+        {
+            String file_Path = FileHelper.GetOutputFolderPath() + "/" + CheckedBoxesNames.get(0) + ".java";
+            file = new FileInputStream(file_Path);
+            if (file != null)
             {
-                CheckedBoxesNames.add(cb[i].getText());
+                String Text = FileHelper.getContents(file);
+                ModifyTxtArea.setText(Text);
+                file.close();
+            }
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally 
+        {
+            try 
+            {
+                file.close();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        for(int i = 0 ; i < CheckedBoxesNames.size() ; i++) 
-        {
-            System.out.println(CheckedBoxesNames.get(i));
-        }
-    }//GEN-LAST:event_btnModifyActionPerformed
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,14 +302,15 @@ public class Modify extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea ModifyTxtArea;
     private javax.swing.JPanel PanCheckBoxes;
+    private javax.swing.JButton btnChoose;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnModify;
-    private javax.swing.JButton btnShowClasses;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnShow;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
