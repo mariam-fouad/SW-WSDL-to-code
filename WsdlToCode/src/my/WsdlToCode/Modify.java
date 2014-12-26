@@ -7,6 +7,7 @@ package my.WsdlToCode;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -170,6 +171,16 @@ public class Modify extends javax.swing.JFrame {
             System.out.println(CheckedBoxesNames.get(i));
         }
         
+        File Folder=new File(FileHelper.GetOutputFolderPath());
+        File[] list = Folder.listFiles();
+        for(int i = 0 ; i < list.length ; i++)
+        {
+            String FileName = list[i].getName().replace(".java", "");
+            if(!CheckedBoxesNames.contains(FileName) && list[i].isFile())
+            {
+                list[i].delete();
+            }
+        }
         InputStream file = null;
         try 
         {
