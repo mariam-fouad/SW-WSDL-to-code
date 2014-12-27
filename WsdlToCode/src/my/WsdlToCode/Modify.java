@@ -161,8 +161,8 @@ public class Modify extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseActionPerformed
-    	CheckedBoxesNames.clear();
-    	for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
+
+        for(int i = 0 ; i < CheckBoxesNames.size() ; i++) 
         {
             if(cb[i].isSelected() == true)
             {
@@ -173,7 +173,6 @@ public class Modify extends javax.swing.JFrame {
         {
             System.out.println(CheckedBoxesNames.get(i));
         }
-        
         File Folder=new File(FileHelper.GetOutputFolderPath());
         File[] list = Folder.listFiles();
         for(int i = 0 ; i < list.length ; i++)
@@ -204,17 +203,7 @@ public class Modify extends javax.swing.JFrame {
         {
             Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        finally 
-        {
-            try 
-            {
-                file.close();
-            } 
-            catch (IOException ex) 
-            {
-                Logger.getLogger(Modify.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    	
     }//GEN-LAST:event_btnChooseActionPerformed
 
     private void btnShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowActionPerformed
